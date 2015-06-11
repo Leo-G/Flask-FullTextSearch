@@ -1,0 +1,22 @@
+
+{% macro site_form(form_name = '', site_name='', site_email='') %}
+  
+        <div class="center row">
+            <div class="large-8 columns">
+            <h4> {{ form_name }} Sites</h4>
+               <fieldset>  
+                <form action="" method="POST" > 
+  
+				  <label>Name <small>required</small><input type="text" name="name" value="{{ site_name }}"  required/>	 </label>   
+				 <label> Email <small>required</small> <input type="email" name="email" value="{{ site_email }}" required/> </label> 
+				 
+				   <button class="button "  type="submit">{{ form_name }}</button>
+                  </form>
+                </fieldset>  
+				      
+            			   
+				</div>
+			  </div>
+			  
+  
+{% endmacro %}

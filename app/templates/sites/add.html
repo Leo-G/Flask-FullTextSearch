@@ -1,0 +1,11 @@
+
+{% extends "layout.html" %}
+  {% block body %}
+
+    {% from 'sites/_form.html' import site_form %}
+
+    {{  site_form(form_name = 'Add', site_name = '', site_email = '') }}
+    
+  
+			
+  {% endblock %}

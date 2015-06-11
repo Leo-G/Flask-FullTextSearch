@@ -1,0 +1,33 @@
+
+{% extends "layout.html" %}
+  {% block body %}
+
+<div class="center row">
+      <div class="small-12 columns"><p><h4 style="display:inline">Sites </h4><a href="{{ url_for('sites.site_add')}}">Add new</a></p></div>
+    </div>
+     
+      <!-- Main Page Content-->
+ <div class="center row">
+             <div class="small-12 columns">
+            <table> <thead><tr><th>Name</th><th>Email</th></tr></thead>
+             <tbody>
+             {% for result in results %}
+              <tr><td>{{ result['name'] }}</td><td>{{ result['email'] }}</td>
+                 <td><a href="{{ url_for('sites.site_update', id=result['id']) }}">Edit</a>        <a href="{{ url_for('sites.site_delete', id=result['id']) }}">Delete</a></td> 
+                </tr> 
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+    
+{% endblock %}          
+     
+            
+                
+				
+     
+     
+      
+     

@@ -8,8 +8,8 @@ from app.roles.models import Roles
 app = create_app('config')
 
 name='Leo'
-email='youremail@leog.in'
-password=generate_password_hash('password')
+email='leo@leog.in'
+password=generate_password_hash('qwedsa')
 is_enabled=True
 admin_role_name="admin"
 user=Users(email, name,password, is_enabled)

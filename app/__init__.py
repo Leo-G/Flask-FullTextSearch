@@ -17,7 +17,10 @@ def create_app(config_filename):
     
 
     
+    
     #Blueprints
+    from app.sites.views import sites
+    app.register_blueprint(sites, url_prefix='/sites')
     from app.roles.views import roles
     app.register_blueprint(roles, url_prefix='/roles')
     from app.users.views import users
