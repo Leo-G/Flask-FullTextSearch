@@ -92,6 +92,23 @@ def site_delete (id):
      return delete(site, fail_url = 'sites.site_index')
      
      
+     
+     
+###GITHUB WEBHOOK START ###
+
+@sites.route('/github_payload', methods=['POST'])
+def github_payload():
+      data = request.get_json()
+      with open('test.txt', 'w') as file:
+        file.write(data)
+        
+        
+   
+
+
+###GITHUB WEBHOOK END ###
+     
+     
 #CRUD FUNCTIONS
 #Arguments  are data to add, function to redirect to if the add was successful and if not
 def add (data, success_url = '', fail_url = ''):
