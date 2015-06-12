@@ -20,8 +20,8 @@
             </table>
           </div>
         </div>
- {% if results.has_prev %}<a href="{{ url_for('users.user_index', page=results.prev_num) }}">&lt;&lt; Older results</a>{% else %}&lt;&lt; Older results{% endif %} | 
-{% if results.has_next %}<a href="{{ url_for('users.user_index', page=results.next_num) }}">Newer results &gt;&gt;</a>{% else %}Newer results &gt;&gt;{% endif %}      
+ {% if results.has_prev %}<a href="{{ url_for('sites.site_index', page=results.prev_num) }}">&lt;&lt; Older results</a>{% else %}&lt;&lt; Older results{% endif %} | 
+{% if results.has_next %}<a href="{{ url_for('sites.site_index', page=results.next_num) }}">Newer results &gt;&gt;</a>{% else %}Newer results &gt;&gt;{% endif %}      
     
 {% endblock %}          
      
