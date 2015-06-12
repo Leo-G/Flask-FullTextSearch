@@ -9,7 +9,7 @@ app = create_app('config')
 
 name='Leo'
 email='leo@leog.in'
-password=generate_password_hash('qwedsa')
+password=generate_password_hash('password')
 is_enabled=True
 admin_role_name="admin"
 user=Users(email, name,password, is_enabled)
