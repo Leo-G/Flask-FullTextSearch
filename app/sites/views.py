@@ -1,5 +1,5 @@
 #resource, resources, Resources
-from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify, response
+from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify
 from app.sites.models import Sites, SitesSchema
 from app.users.models import db
 from flask.ext.login import login_required
@@ -100,7 +100,8 @@ def site_delete (id):
 def github_payload():
       data = request.get_json()
       print(data)
-      return  response.status_code, 
+      
+      return  200
         
         
    
