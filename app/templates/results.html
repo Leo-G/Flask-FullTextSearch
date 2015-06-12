@@ -1,0 +1,45 @@
+ {% extends "layout.html" %}
+{% block body %}
+
+<div class="center row" >
+      <div class="small-12 columns"><p><h4 style="display:inline">Search Results </h4></p></div>
+    </div>
+   <!-- Search Box-->
+   {% from '_search_form.html' import search_form %}
+
+    {{ search_form() }} 
+    
+   <!-- Search Box-->  
+              
+      <!-- Results-->
+ <div class=" center row collapse postfix-round">
+             <div class="small-12 columns">
+            <table> <thead><tr><th>URL</th><th>Content</th><th>Tag</th></tr></thead>
+             <tbody>
+    {% if results is not none %}
+    
+    <!-- START RESULTS -->
+              {% for result in results.items %}
+              <tr><td><a href="{{ result['url'] }}" target="_blank">{{ result['url'] }}</a> </td><td>{{ result['content'] }}</td><td>{{ result['tag'] }}</td>                 
+                </tr>
+                {% endfor %}
+               
+              </tbody>
+            </table>
+          </div>
+        </div>
+    <!-- END RESULTS -->
+    <!-- PAGINATE -->
+        {% set args = request.args %}
+       {% if results.has_next %}
+       
+          <a href="{{ url_for(request.endpoint, page=results.next_num, **args)}}"> Next</a> |
+       {% endif %}
+  
+       {% if results.has_prev %}
+          <a href="{{ url_for(request.endpoint, page=results.prev_num, **args)}}"> Previous</a>
+       {% endif %}
+    
+    {% endif %}
+
+ {% endblock %}

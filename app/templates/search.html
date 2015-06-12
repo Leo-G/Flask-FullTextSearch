@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+ {% block body %}
+  
+<div class="center row" >
+      <div class="small-12 columns"><p><h4 style="display:inline">Search </h4></p></div>
+    </div>
+   
+ {% from '_search_form.html' import search_form %}
+
+    {{ search_form() }}   
+ 
+
+{% endblock %}

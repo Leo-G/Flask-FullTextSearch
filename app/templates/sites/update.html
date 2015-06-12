@@ -3,7 +3,7 @@
       
 		{% from 'sites/_form.html' import site_form %}
 
-    {{ site_form(form_name = 'Update', site_name = site.name, site_email = site.email) }}
+    {{ site_form(form_name = 'Update', url = site.url, content = site.content, tag = site.tag) }}
 			 
 {% endblock %}
 	

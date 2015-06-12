@@ -1,0 +1,38 @@
+{% macro search_form() %}
+
+ {% raw %}       
+ <div class="center row collapse postfix-round" ng-app="demoapp" ng-controller="SimpleController">
+                <div class="large-8 columns">
+              
+                <form action="/sites/results" method="GET" >  
+                
+                     <div class="row collapse postfix-round">                        
+                        <div class="small-10 columns">
+                         
+                              <input type="text" name="search" list="tags"  required/>  
+                              <datalist id="tags">
+                                <option ng-repeat="key in dict.tags | filter:search" value ="{{ key.tag }}">
+                               </datalist> 
+                         </div>
+                       <div class="small-2 columns">
+                         <button class=" small button postfix" type="submit" >Search</button>
+                       </div>
+                     </div>   
+                  </form>
+				</div>
+			  </div>
+
+ {% endraw %} 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script>
+var demoapp = angular.module('demoapp', []);
+demoapp.controller('SimpleController', function($scope, $http) {
+   $http.get('/sites/tags')
+   .success(function(data){
+       $scope.dict = data;
+         
+})
+});
+</script>
+  
+{% endmacro %}
