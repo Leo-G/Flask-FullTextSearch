@@ -99,8 +99,7 @@ def site_delete (id):
 @sites.route('/github_payload', methods=['POST'])
 def github_payload():
       data = request.get_json()
-      with open('/sites/search.techarena51.com/test.txt', 'w') as file:
-        file.write(data)
+      print(data)
         
         
    
