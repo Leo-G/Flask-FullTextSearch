@@ -97,17 +97,17 @@ def site_delete (id):
 ###GITHUB WEBHOOK START ###
 import subprocess 
 @sites.route('/github_payload', methods=['POST'])
-def github_payload():
-      data = request.get_json()
-      print(data['commits']['distinct'])
-      cmd = subprocess.Popen(['./sites/flask_search/github-webhook.bash'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-      out,error = cmd.communicate()
-      print(out.splitlines())      
-      ok = 200
-      return ok
-        
-        
-   
+def github_payload():      
+      if request.headers.get('X-GitHub-Event') == "ping":
+        return json.dumps({'msg': 'Ok'})
+      if request.headers.get('X-GitHub-Event') == "push":
+          payload = request.get_json()
+          if  payload['commits'][0]['distinct'] == True:
+              cmd = subprocess.Popen(['path/github-webhook.bash'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+              out,error = cmd.communicate()
+              print(out.splitlines())      
+              ok = 200
+              return ok
 
 
 ###GITHUB WEBHOOK END ###
