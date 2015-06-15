@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request,flash, redirect, url_for, 
 from app.sites.models import Sites, SitesSchema
 from app.users.models import db
 from flask.ext.login import login_required
+import subprocess
 
 sites = Blueprint('sites', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
@@ -95,7 +96,7 @@ def site_delete (id):
      
      
 ###GITHUB WEBHOOK START ###
-import subprocess 
+
 @sites.route('/github_payload', methods=['POST'])
 def github_payload():      
       if request.headers.get('X-GitHub-Event') == "ping":
