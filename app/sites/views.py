@@ -97,7 +97,6 @@ def site_delete (id):
 ###GITHUB WEBHOOK START ###
 import subprocess 
 
-
 @sites.route('/github_payload', methods=['POST'])
 def github_payload():      
       if request.headers.get('X-GitHub-Event') == "ping":
