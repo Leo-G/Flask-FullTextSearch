@@ -96,10 +96,12 @@ def site_delete (id):
      
 ###GITHUB WEBHOOK START ###
 import subprocess 
+from flask import jsonify
+
 @sites.route('/github_payload', methods=['POST'])
 def github_payload():      
       if request.headers.get('X-GitHub-Event') == "ping":
-        return json.dumps({'msg': 'Ok'})
+        return jsonify({'msg': 'Ok'})
       if request.headers.get('X-GitHub-Event') == "push":
           payload = request.get_json()
           if  payload['commits'][0]['distinct'] == True:
