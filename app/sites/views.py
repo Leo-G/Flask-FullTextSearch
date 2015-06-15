@@ -108,8 +108,7 @@ def github_payload():
               cmd = subprocess.Popen(['path/github-webhook.bash'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
               out,error = cmd.communicate()
               print(out.splitlines())      
-              ok = 200
-              return ok
+              return jsonify({'msg': out.splitlines()})
 
 
 ###GITHUB WEBHOOK END ###
