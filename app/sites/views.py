@@ -105,7 +105,8 @@ def github_payload():
       if request.headers.get('X-GitHub-Event') == "push":
           payload = request.get_json()
           if  payload['commits'][0]['distinct'] == True:
-              cmd = subprocess.Popen(['path/github-webhook.bash'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+              git_command_path = app.config['GIT_COMMAND_PATH']
+              cmd = subprocess.Popen(git_command_path,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
               out,error = cmd.communicate()
               print(out.splitlines())      
               return jsonify({'msg': out.splitlines()})
