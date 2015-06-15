@@ -95,8 +95,7 @@ def site_delete (id):
      
      
 ###GITHUB WEBHOOK START ###
-import subprocess
- 
+import subprocess 
 @sites.route('/github_payload', methods=['POST'])
 def github_payload():
       data = request.get_json()
