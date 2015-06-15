@@ -105,9 +105,8 @@ def github_payload():
           if  payload['commits'][0]['distinct'] == True:
               git_command_path = current_app.config['GIT_COMMAND_PATH']
               cmd = subprocess.Popen(git_command_path,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-              out,error = cmd.communicate()
-              print(out.splitlines())      
-              return jsonify({'msg': out.splitlines()})
+              out,error = cmd.communicate()                 
+              return jsonify({'msg': 'successfully ran git pull'})
 
 
 ###GITHUB WEBHOOK END ###
