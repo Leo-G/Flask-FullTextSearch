@@ -1,5 +1,5 @@
 #resource, resources, Resources
-from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify, current_app
 from app.sites.models import Sites, SitesSchema
 from app.users.models import db
 from flask.ext.login import login_required
@@ -104,7 +104,7 @@ def github_payload():
       if request.headers.get('X-GitHub-Event') == "push":
           payload = request.get_json()
           if  payload['commits'][0]['distinct'] == True:
-              git_command_path = app.config['GIT_COMMAND_PATH']
+              git_command_path = current_app.config['GIT_COMMAND_PATH']
               cmd = subprocess.Popen(git_command_path,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
               out,error = cmd.communicate()
               print(out.splitlines())      
