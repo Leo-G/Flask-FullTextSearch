@@ -96,7 +96,7 @@ def site_delete (id):
      
 ###GITHUB WEBHOOK START ###
 import subprocess 
-from flask import jsonify
+
 
 @sites.route('/github_payload', methods=['POST'])
 def github_payload():      
