@@ -108,7 +108,6 @@ def github_payload():
               out,error = cmd.communicate()                 
               return jsonify({'msg': 'successfully ran git pull'})
 
-
 ###GITHUB WEBHOOK END ###
      
      
