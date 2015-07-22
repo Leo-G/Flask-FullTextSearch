@@ -1,34 +1,38 @@
 
 {% extends "layout.html" %}
   {% block body %}
-
-<div class="center row">
+  {% raw %}
+<div class="center row" >
       <div class="small-12 columns"><p><h4 style="display:inline">Sites </h4><a href="{{ url_for('sites.site_add')}}">Add new</a></p></div>
     </div>
-     
+
       <!-- Main Page Content-->
- <div class="center row">
+ <div class="center row" ng-app="tables" ng-controller="TableController">
              <div class="small-12 columns">
-            <table> <thead><tr><th>Name</th><th>Email</th></tr></thead>
+               {{ dict }}
+            <table> <thead><tr><th>URL</th><th>Content</th><th>Tag</th></tr></thead>
              <tbody>
-                    {% for result in results.items %}
+
               <tr><td><a href="{{ result['url'] }}" target="_blank">{{ result['url'] }}</a> </td><td>{{ result['content'] }}</td><td>{{ result['tag'] }}</td>
                  <td><a href="{{ url_for('sites.site_update', id=result['id']) }}">Edit</a>        <a href="{{ url_for('sites.site_delete', id=result['id']) }}">Delete</a></td>
                 </tr>
-                {% endfor %}
+
               </tbody>
             </table>
           </div>
         </div>
- {% if results.has_prev %}<a href="{{ url_for('sites.site_index', page=results.prev_num) }}">&lt;&lt; Older results</a>{% else %}&lt;&lt; Older results{% endif %} | 
-{% if results.has_next %}<a href="{{ url_for('sites.site_index', page=results.next_num) }}">Newer results &gt;&gt;</a>{% else %}Newer results &gt;&gt;{% endif %}      
-    
-{% endblock %}          
-     
-            
-                
-				
-     
-     
-      
-     
+
+        {% endraw %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script>
+var tables = angular.module('tables', []);
+tables.controller('TableController', function($scope, $http) {
+   $http.get('/sites')
+   .success(function(data){
+       $scope.dict = data;
+
+})
+});
+</script>
+{% endblock %}
