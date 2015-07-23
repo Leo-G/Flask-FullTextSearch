@@ -46,12 +46,13 @@ def tag():
 def site_index():
     return render_template('/sites/index.html')
 
+new_schema = SitesSchema()
 @sites.route('/sites', methods=['GET'])
 @login_required
 def sites_all():
-    query =  Sites.query.all
-    sites = schema.dump(query, many=True).data
-    return   jsonify({"sites":sites})
+    query =  Sites.query.all()
+    sites = new_schema.dump(query, many=True).data
+    return jsonify({"sites":sites})
 
 
 @sites.route('/add' , methods=['POST', 'GET'])
