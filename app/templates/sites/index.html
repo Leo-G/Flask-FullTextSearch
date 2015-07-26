@@ -1,70 +1,101 @@
 
 {% extends "layout.html" %}
   {% block body %}
- 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 
 <script>
-var app = angular.module('app', ['smart-table']);
+var app = angular.module('app', []);
 app.controller('TableController', function($scope, $http) {
-   $http.get('/sites/sites')
+
+  $scope.sortType     = 'tag'; // set the default sort type
+  $scope.sortReverse  = true;  // set the default sort order
+  $scope.search   = '';     // set the default search/filter term
+  $http.get('/sites/sites')
    .success(function(data){
-       $scope.sites = data;
-       
-    
-         
-})
-scope.rowCollection = [
-        {firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com'},
-        {firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com'},
-        {firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com'}
-         ];
-        
+       $scope.sites = data; })
+
+
+
 });
 </script>
-  
+
 {% raw %}      <!-- Main Page Content-->
  <div class="center row" ng-app="app" ng-controller="TableController">
-                                 
-                
-             <div class="small-12 columns">            
-            <table > 
-            <thead><tr><th>ID</th><th>URL</th><th>Tag</th><th>Search</th><th>Content</th></tr></thead>
+
+       <form>
+     <div class="row">
+       <div class="small-8 columns">
+         <div class="row">
+           <div class="small-3 columns">
+             <label for="right-label" class="right inline">Search</label>
+           </div>
+           <div class="small-9 columns">
+             <input type="text" id="right-label" name="search" ng-model="search" required>
+           </div>
+         </div>
+       </div>
+   </form>
+
+   <a href="#" ng-click="sortType = 'id'">
+                  ID
+               <span ng-show="sortType == 'id'" class="fa fa-caret-down"></span>
+             </a>
+
+
+  <div class="center row">
+             <div class="small-12 columns">
+            <table >
+            <thead><tr>
+              <th>
+              <a href="#" ng-click="sortType = 'id'">
+                             ID
+                          <span ng-show="sortType == 'id'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'url'">
+                             URL
+                          <span ng-show="sortType == 'url'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'tag'">
+                             Tag
+                          <span ng-show="sortType == 'tag'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'search'">
+                             Search
+                          <span ng-show="sortType == 'search'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'content'">
+                             Content
+                          <span ng-show="sortType == 'content'" ></span>
+                        </a>
+              </th>
+            </thead>
              <tbody>
-              <tr ng-repeat="site in sites.sites">
-              <td>{{ site.id }}</a> </td>
-              <td>{{ site.url }}</td>
-              <td>{{ site.tag }}</td>
-              <td>{{ site.search }}</td>
-              <td>{{ site.content }}</td>
+              <tr ng-repeat="site in sites.sites | orderBy:sortType:sortReverse |filter:search" >
+              <td>{{ site.id   }}</a> </td>
+              <td>{{ site.url  }}</td>
+              <td>{{ site.tag }} </td>
+              <td>{{ site.search }} </td>
+              <td>{{ site.content  }} </td>
               <td></td>
                 </tr>
 
               </tbody>
             </table>
-            
-            
-            <table st-table="rowCollection" class="table table-striped">
-	<thead>
-	<tr>
-		<th>first name</th>
-		<th>last name</th>
-		<th>birth date</th>
-		<th>balance</th>
-		<th>email</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr ng-repeat="row in rowCollection">
-		<td>{{row.firstName}}</td>
-		<td>{{row.lastName}}</td>
-		<td>{{row.birthDate}}</td>
-		<td>{{row.balance}}</td>
-		<td>{{row.email}}</td>
-	</tr>
-	</tbody>
-</table>
+
+
+
           </div>
         </div>
+     </div>
 
         {% endraw %}
 
