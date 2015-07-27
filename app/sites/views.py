@@ -94,24 +94,6 @@ def site_delete (id):
      
      
      
-     
-###GITHUB WEBHOOK START ###
-
-@sites.route('/github_payload', methods=['POST'])
-def github_payload():      
-      if request.headers.get('X-GitHub-Event') == "ping":
-        return jsonify({'msg': 'Ok'})
-      if request.headers.get('X-GitHub-Event') == "push":
-          payload = request.get_json()
-          if  payload['commits'][0]['distinct'] == True:
-              git_command_path = current_app.config['GIT_COMMAND_PATH']
-              cmd = subprocess.Popen(git_command_path,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-              out,error = cmd.communicate()                 
-              return jsonify({'msg': 'successfully ran git pull'})
-
-###GITHUB WEBHOOK END ###
-     
-     
 #CRUD FUNCTIONS
 #Arguments  are data to add, function to redirect to if the add was successful and if not
 def add (data, success_url = '', fail_url = ''):
