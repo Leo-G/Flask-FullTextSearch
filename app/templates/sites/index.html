@@ -63,12 +63,6 @@ app.controller('TableController', function($scope, $http) {
                         </a>
               </th>
               <th>
-              <a href="#" ng-click="sortType = 'search'">
-                             Search
-                          <span ng-show="sortType == 'search'" ></span>
-                        </a>
-              </th>
-              <th>
               <a href="#" ng-click="sortType = 'content'">
                              Content
                           <span ng-show="sortType == 'content'" ></span>
@@ -80,7 +74,6 @@ app.controller('TableController', function($scope, $http) {
               <td>{{ site.id   }}</a> </td>
               <td>{{ site.url  }}</td>
               <td>{{ site.tag }} </td>
-              <td>{{ site.search }} </td>
               <td>{{ site.content  }} </td>
               <td></td>
                 </tr>
