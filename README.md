@@ -5,3 +5,5 @@ Built on SQLAlcehmy search
 
 
 Need to bundle app
+
+Run /trigger to create triggers
