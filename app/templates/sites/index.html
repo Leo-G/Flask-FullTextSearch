@@ -2,33 +2,103 @@
 {% extends "layout.html" %}
   {% block body %}
 
-<div class="center row">
-      <div class="small-12 columns"><p><h4 style="display:inline">Sites </h4><a href="{{ url_for('sites.site_add')}}">Add new</a></p></div>
-    </div>
-     
-      <!-- Main Page Content-->
- <div class="center row">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+<script>
+var app = angular.module('app', []);
+app.controller('TableController', function($scope, $http) {
+
+  $scope.sortType     = 'tag'; // set the default sort type
+  $scope.sortReverse  = true;  // set the default sort order
+  $scope.search   = '';     // set the default search/filter term
+  $http.get('/sites/sites')
+   .success(function(data){
+       $scope.sites = data; })
+
+
+
+});
+</script>
+
+{% raw %}      <!-- Main Page Content-->
+ <div class="center row" ng-app="app" ng-controller="TableController">
+
+       <form>
+     <div class="row">
+       <div class="small-8 columns">
+         <div class="row">
+           <div class="small-3 columns">
+             <label for="right-label" class="right inline">Search</label>
+           </div>
+           <div class="small-9 columns">
+             <input type="text" id="right-label" name="search" ng-model="search" required>
+           </div>
+         </div>
+       </div>
+   </form>
+
+   <a href="#" ng-click="sortType = 'id'">
+                  ID
+               <span ng-show="sortType == 'id'" class="fa fa-caret-down"></span>
+             </a>
+
+
+  <div class="center row">
              <div class="small-12 columns">
-            <table> <thead><tr><th>Name</th><th>Email</th></tr></thead>
+            <table >
+            <thead><tr>
+              <th>
+              <a href="#" ng-click="sortType = 'id'">
+                             ID
+                          <span ng-show="sortType == 'id'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'url'">
+                             URL
+                          <span ng-show="sortType == 'url'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'tag'">
+                             Tag
+                          <span ng-show="sortType == 'tag'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'search'">
+                             Search
+                          <span ng-show="sortType == 'search'" ></span>
+                        </a>
+              </th>
+              <th>
+              <a href="#" ng-click="sortType = 'content'">
+                             Content
+                          <span ng-show="sortType == 'content'" ></span>
+                        </a>
+              </th>
+            </thead>
              <tbody>
-                    {% for result in results.items %}
-              <tr><td><a href="{{ result['url'] }}" target="_blank">{{ result['url'] }}</a> </td><td>{{ result['content'] }}</td><td>{{ result['tag'] }}</td>
-                 <td><a href="{{ url_for('sites.site_update', id=result['id']) }}">Edit</a>        <a href="{{ url_for('sites.site_delete', id=result['id']) }}">Delete</a></td>
+              <tr ng-repeat="site in sites.sites | orderBy:sortType:sortReverse |filter:search" >
+              <td>{{ site.id   }}</a> </td>
+              <td>{{ site.url  }}</td>
+              <td>{{ site.tag }} </td>
+              <td>{{ site.search }} </td>
+              <td>{{ site.content  }} </td>
+              <td></td>
                 </tr>
-                {% endfor %}
+
               </tbody>
             </table>
+
+
+
           </div>
         </div>
- {% if results.has_prev %}<a href="{{ url_for('sites.site_index', page=results.prev_num) }}">&lt;&lt; Older results</a>{% else %}&lt;&lt; Older results{% endif %} | 
-{% if results.has_next %}<a href="{{ url_for('sites.site_index', page=results.next_num) }}">Newer results &gt;&gt;</a>{% else %}Newer results &gt;&gt;{% endif %}      
-    
-{% endblock %}          
-     
-            
-                
-				
-     
-     
-      
-     
+     </div>
+
+        {% endraw %}
+
+
+
+{% endblock %}
