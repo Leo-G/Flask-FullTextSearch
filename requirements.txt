@@ -1,4 +1,5 @@
 alembic==0.7.6
+autopep8==1.2
 beautifulsoup4==4.4.0
 blinker==1.4
 decorator==3.4.2
@@ -14,6 +15,7 @@ Jinja2==2.7.3
 Mako==1.0.1
 MarkupSafe==0.23
 marshmallow==1.2.6
+pep8==1.6.2
 psycopg2==2.6
 pyparsing==2.0.3
 requests==2.7.0
