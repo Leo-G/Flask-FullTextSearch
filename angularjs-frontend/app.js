@@ -23,14 +23,21 @@ module.controller("SitesCtrl", function($scope, $http) {
 
     $scope.gridOptions = {
         columnDefs: columnDefs,
-        rowData: $scope.dict,
-        dontUseScrolls: true // because so little data, no need to use scroll bars
+        rowData: null,
+        enableSorting: true,
+        enableColResize: true,
+        rowSelection: 'single',
+
+
+      
     };
     
     $http.get('/sites/sites')
        .success(function(data){
            $scope.gridOptions.rowData = data.sites;
            $scope.gridOptions.api.onNewRows();
+           $scope.gridOptions.api.sizeColumnsToFit();
+           
 
            
                       })
