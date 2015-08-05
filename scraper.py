@@ -11,11 +11,11 @@ msg = Message("Failed to add sites",
                   sender="leo@search.techarena51.com",
                   recipients=["leo.gonzalvez@gmail.com"])
 
-#headers = { 'user-agent': 'testing:v0.1 (by /u/12boy)' }
+headers = { 'user-agent': 'testing:v0.1 (by /u/12boy)' }
 
-#site = requests.get("https://news.ycombinator.com/", headers=headers)
+site = requests.get("https://news.ycombinator.com/", headers=headers)
 
-soup = BeautifulSoup(open("html-test"), 'html.parser')
+soup = BeautifulSoup(site.text, 'html.parser')
 
 for div in soup.find_all(class_="athing"):
        #Ad links have no score on ycombinate eg: search for Zesty
