@@ -1,0 +1,21 @@
+textarea {
+  height: 300px;
+}
+
+
+fieldset {
+  height: 300px;
+}
+
+.required:after { 
+ content:"*";
+ font-family: "Open Sans";
+
+}
+
+
+/* Utilities
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.u-90-width {
+  width: 90%;
+  box-sizing: border-box; }
