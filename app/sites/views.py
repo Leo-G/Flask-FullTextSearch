@@ -35,9 +35,44 @@ class SitesList(Resource):
              else:
                 return jsonify({"message":add})
 
+class SitesUpdate(Resource):
+
+    def get(self, id):
+        query =  Sites.query.get(id)
+        site = new_schema.dump(query).data
+        return jsonify({"site":site})
+
+
+    def put(self, id):
+        site=Sites.query.get_or_404(id)
+        form_errors = schema.validate(request.form.to_dict())
+        if not form_errors:
+               site.url = request.form['url']
+               site.content = request.form['content']
+               site.tag = request.form['tag']
+               site.reddit_score = request.form['reddit_score']
+               site.ycombinator_score = request.form['ycombinator_score']
+               update = site.update()
+               #if does not return any error
+               if not update :
+                  return jsonify({"message":"success"})
+               else:
+                  return jsonify({"message":update})
+
+    def delete(self, id):
+        site=Sites.query.get_or_404(id)
+        delete=site.delete(site)
+        if not delete :
+                 return jsonify({"message":"success"})
+
+        else:
+            return jsonify({"message":delete})
+
+
 
 
 api.add_resource(SitesList, '/')
+api.add_resource(SitesUpdate, '/<int:id>')
 
 ### SEARCH START ###
 @sites.route('/search', methods=['GET'])
