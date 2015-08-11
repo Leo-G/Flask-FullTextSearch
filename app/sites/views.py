@@ -4,10 +4,40 @@ from app.sites.models import Sites, SitesSchema
 from app.users.models import db
 from flask.ext.login import login_required
 import subprocess
+from flask_restful import Resource, Api
 
 sites = Blueprint('sites', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
 schema = SitesSchema(only=('id','tag'))
+new_schema = SitesSchema()
+
+# API START
+
+api = Api(sites)
+
+class SitesList(Resource):
+    def get(self):
+        query =  Sites.query.all()
+        sites = new_schema.dump(query, many=True).data
+        return jsonify({"sites":sites})
+
+    def post(self):
+         form_errors = schema.validate(request.form.to_dict())
+         if not form_errors:
+             url = request.form['url']
+             content = request.form['content']
+             tag = request.form['tag']
+             site = Sites(url, content, tag)
+             add = site.add(site)
+             #if does not return any error
+             if not add :
+                return jsonify({"message":"success"})
+             else:
+                return jsonify({"message":add})
+
+
+
+api.add_resource(SitesList, '/')
 
 ### SEARCH START ###
 @sites.route('/search', methods=['GET'])
@@ -40,6 +70,7 @@ def tag():
 ## End testing
 ### SEARCH END ###
 
+"""
 #Sites
 @sites.route('/' , methods=['GET'])
 @login_required
@@ -61,15 +92,7 @@ def site_add():
 
     if request.method == 'POST':
         #Validate form values by de-serializing the request, http://marshmallow.readthedocs.org/en/latest/quickstart.html#validation
-        form_errors = schema.validate(request.form.to_dict())
-        if not form_errors:
-            url = request.form['url']
-            content = request.form['content']
-            tag = request.form['tag']
-            site = Sites(url, content, tag)
-            return add(site, success_url = 'sites.site_index', fail_url = 'sites.site_add')
-        else:
-            flash(form_errors)
+
 
     return render_template('/sites/add.html')
 
@@ -135,7 +158,7 @@ def delete (data, fail_url=''):
           message=delete
           flash(message)
      return redirect(url_for(fail_url))
-
+"""
 #Create  Triggers and Functions
 @sites.route('/trigger', methods=['GET'])
 def trig():
