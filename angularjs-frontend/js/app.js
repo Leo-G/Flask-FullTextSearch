@@ -1,4 +1,4 @@
-angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'siteApp.services']);
+angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'siteApp.services', "angularGrid"]);
 
 angular.module('siteApp').config(function($stateProvider) {
   $stateProvider.state('sites', { // state for showing all sites

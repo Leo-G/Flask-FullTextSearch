@@ -1,15 +1,15 @@
-<a ui-sref="newSite" class="btn-primary btn-lg nodecoration">Add New Movie</a>
+     <input placeholder="Filter..." type="text" ng-model="gridOptions.quickFilterText"/>
+     <br>
+     <br>
+     <a href="/add.html">Add</a> 
+     <span ng-repeat="selectedRow in gridOptions.selectedRows">
+      <a ui-sref="editSite({id:selectedRow.id })">Edit</a>
+     
+     
+       <button ng-click="deleteSite(selectedRow)"> Delete </button>
+     </span>
 
-<table class="table movietable">
-  <tr>
-    <td><h3>All Movies</h3></td>
-    <td></td>
-  </tr>
-  <tr ng-repeat="site in sites.sites">
-    <td>{{site.url}}</td>
-    <td>
-      <a class="btn btn-primary" ui-sref="viewSite({id:site.id})">View</a>
-      <button  ng-click="deleteSite(site)">Delete</button>
-    </td>
-  </tr>
-</table>
+    <div ag-grid="gridOptions" class="ag-fresh" style="height: 100%;"></div>
+    
+    
+

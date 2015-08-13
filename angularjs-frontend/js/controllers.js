@@ -1,5 +1,49 @@
 angular.module('siteApp.controllers', []).controller('SiteListController', function($scope, $state,  $window, Site) {
-  $scope.sites = Site.get(); //fetch all sites. Issues a GET to /api/sites
+
+ var columnDefs = [{
+    headerName: "id",
+    field: "id",
+    width: 100
+  }, {
+    headerName: "tag",
+    field: "tag",
+    width: 300
+  }, {
+    headerName: "url",
+    field: "url",
+    width: 500
+  }, {
+    headerName: "creation_date",
+    field: "creation_date"
+  }, {
+    headerName: "reddit_score",
+    field: "reddit_score",
+    width: 100
+  }, {
+    headerName: "ycombinator_score",
+    field: "ycombinator_score",
+    width: 100
+  }];
+
+
+  $scope.gridOptions = {
+    columnDefs: columnDefs,
+    rowData: null,
+    enableSorting: true,
+    enableColResize: true,
+    rowSelection: 'single',
+
+  };
+  
+  Site.get(function(data) {
+    $scope.sites = data.sites;
+    $scope.gridOptions.rowData = $scope.sites;
+    $scope.gridOptions.api.onNewRows();
+    $scope.gridOptions.api.sizeColumnsToFit();
+  });
+  
+  
+    
 
   $scope.deleteSite = function(site) { // Delete a site. Issues a DELETE to /api/sites/:id
     

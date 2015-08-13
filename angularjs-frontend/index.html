@@ -5,34 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/"/>
-    <title>List of Sites</title>
+    
   
   </head>
+  
   <body>
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" ui-sref="sites">Sites</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a ui-sref="sites">Home</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container">
-      <div class="row top-buffer">
-        <div class="col-xs-8 col-xs-offset-2">
-          <div ui-view></div> <!-- This is where our views will load -->
-        </div>
-      </div>
-    </div>
+  <a ui-sref="sites">Home</a>
+  <br>
+  <a ui-sref="newSite">Add a new site</a>
+  
+          <div ui-view style="height: 520px;"></div> <!-- This is where our views will load -->
+       
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/controllers.js"></script>
     <script type="text/javascript" src="js/services.js"></script>
     <script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="node_modules/angular-resource/angular-resource.min.js"></script>
+    <script src="angular-grid/dist/angular-grid.js?ignore=notused2"></script>
+    <link rel="stylesheet" type="text/css" href="angular-grid/dist/angular-grid.css?ignore=notused2">
+    <link rel="stylesheet" type="text/css" href="angular-grid/dist/theme-fresh.css?ignore=notused2">
+    
   </body>
 </html>
