@@ -1,0 +1,15 @@
+<a ui-sref="newSite" class="btn-primary btn-lg nodecoration">Add New Movie</a>
+
+<table class="table movietable">
+  <tr>
+    <td><h3>All Movies</h3></td>
+    <td></td>
+  </tr>
+  <tr ng-repeat="site in sites.sites">
+    <td>{{site.url}}</td>
+    <td>
+      <a class="btn btn-primary" ui-sref="viewSite({id:site.id})">View</a>
+      <button  ng-click="deleteSite(site)">Delete</button>
+    </td>
+  </tr>
+</table>
