@@ -22,18 +22,23 @@ class SitesList(Resource):
         return jsonify({"sites":sites})
 
     def post(self):
-         form_errors = schema.validate(request.form.to_dict())
+         data=request.get_json(force=True)
+         form_errors = schema.validate(data['site'])
          if not form_errors:
-             url = request.form['url']
-             content = request.form['content']
-             tag = request.form['tag']
-             site = Sites(url, content, tag)
+             url = data['site']['url']
+             content = data['site']['content']
+             tag = data['site']['tag']
+             reddit_score = data['site']['reddit_score']
+             ycombinator_score = data['site']['ycombinator_score']             
+             site = Sites(url, content, tag, reddit_score=reddit_score, ycombinator_score=ycombinator_score)
              add = site.add(site)
              #if does not return any error
              if not add :
                 return jsonify({"message":"success"})
              else:
                 return jsonify({"message":add})
+         else:
+            print(form_errors)
 
 class SitesUpdate(Resource):
 
@@ -45,13 +50,14 @@ class SitesUpdate(Resource):
 
     def put(self, id):
         site=Sites.query.get_or_404(id)
-        form_errors = schema.validate(request.form.to_dict())
+        data=request.get_json(force=True)
+        form_errors = schema.validate(data['site'])
         if not form_errors:
-               site.url = request.form['url']
-               site.content = request.form['content']
-               site.tag = request.form['tag']
-               site.reddit_score = request.form['reddit_score']
-               site.ycombinator_score = request.form['ycombinator_score']
+               site.url = data['site']['url']
+               site.content = data['site']['content']
+               site.tag = data['site']['tag']
+               site.reddit_score = data['site']['reddit_score']
+               site.ycombinator_score = data['site']['ycombinator_score']
                update = site.update()
                #if does not return any error
                if not update :

@@ -12,9 +12,10 @@
                       <input class="u-90-width" type="text"  id="tag" name="tag"  ng-model="site.site.tag" required> 
                    </div>
                    <label for="url">Reddit Score</label>
-                   <input class="u-90-width" type="number"  id="reddit_score" name="reddit_score"  ng-model="site.site.reddit_score"> 
+                   <input class="u-90-width" type="number"  id="reddit_score" name="reddit_score"  ng-model="site.site.reddit_score"
+                      ng-init="site.site.reddit_score=0"> 
                    <label for="url">Ycombinator Score</label>
-                   <input class="u-90-width" type="integer"  id="ycombinator_score" name="ycombinator_score"  ng-model="site.site.ycombinator_score"> 
+                   <input class="u-90-width" type="number"  id="ycombinator_score" name="ycombinator_score"  ng-model="site.site.ycombinator_score" ng-init="site.site.ycombinator_score=0"> 
                                  
 
               

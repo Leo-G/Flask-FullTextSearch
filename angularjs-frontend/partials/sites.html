@@ -1,12 +1,12 @@
      <input placeholder="Filter..." type="text" ng-model="gridOptions.quickFilterText"/>
      <br>
      <br>
-     <a href="/add.html">Add</a> 
+     
      <span ng-repeat="selectedRow in gridOptions.selectedRows">
       <a ui-sref="editSite({id:selectedRow.id })">Edit</a>
      
      
-       <button ng-click="deleteSite(selectedRow)"> Delete </button>
+       <button ng-click="deleteSite(selectedRow.id)"> Delete </button>
      </span>
 
     <div ag-grid="gridOptions" class="ag-fresh" style="height: 100%;"></div>
