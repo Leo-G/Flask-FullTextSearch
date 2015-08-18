@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Flask Search</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/my.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+
+
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="two-thirds column" style="margin-top: 10%; margin-left: 15%; ">
+        <!-- The above form looks like this -->
+               
+        
+         <form action="/sites/add" method="post">
+                  <fieldset>
+                  <div class="required">
+                      <label for="url">URL</label>
+                      <input class="u-90-width" type="url"  id="url" name="url" required>  
+                  </div>
+                  
+                  <label for="content">Content</label>      
+                  <textarea class="u-90-width" id="content" name="content" rows="20"></textarea>
+                   <div class="required">
+                      <label for="url">Tag</label>
+                      <input class="u-90-width" type="text"  id="tag" name="tag" required> 
+                   </div>                      
+
+              
+              <button class="button-primary" type="submit"> Add</button>
+              </fieldset>
+            </form>
+         
+
+<!-- Always wrap checkbox and radio inputs in a label and use a <span class="label-body"> inside of it -->
+
+<!-- Note: The class .u-full-width is just a utility class shorthand for width: 100% -->
+        
+       
+        
+        
+      </div>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

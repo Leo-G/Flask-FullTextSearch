@@ -52,7 +52,7 @@ class SitesSchema(Schema):
     tag = fields.String(required = True, validate = not_blank)
 
     class Meta:
-       fields = ('id', 'url', 'content', 'tag', 'search',  'creation_date', 'reddit_score', 'ycombinator_score')
+       fields = ('id', 'url', 'tag', 'content','creation_date', 'reddit_score', 'ycombinator_score')
 
 
 def  session_commit ():

@@ -4,10 +4,81 @@ from app.sites.models import Sites, SitesSchema
 from app.users.models import db
 from flask.ext.login import login_required
 import subprocess
+from flask_restful import Resource, Api
 
 sites = Blueprint('sites', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
 schema = SitesSchema(only=('id','tag'))
+new_schema = SitesSchema()
+
+# API START
+
+api = Api(sites)
+
+class SitesList(Resource):
+    def get(self):
+        query =  Sites.query.all()
+        sites = new_schema.dump(query, many=True).data
+        return jsonify({"sites":sites})
+
+    def post(self):
+         data=request.get_json(force=True)
+         form_errors = schema.validate(data['site'])
+         if not form_errors:
+             url = data['site']['url']
+             content = data['site']['content']
+             tag = data['site']['tag']
+             reddit_score = data['site']['reddit_score']
+             ycombinator_score = data['site']['ycombinator_score']             
+             site = Sites(url, content, tag, reddit_score=reddit_score, ycombinator_score=ycombinator_score)
+             add = site.add(site)
+             #if does not return any error
+             if not add :
+                return jsonify({"message":"success"})
+             else:
+                return jsonify({"message":add})
+         else:
+            print(form_errors)
+
+class SitesUpdate(Resource):
+
+    def get(self, id):
+        query =  Sites.query.get(id)
+        site = new_schema.dump(query).data
+        return jsonify({"site":site})
+
+
+    def put(self, id):
+        site=Sites.query.get_or_404(id)
+        data=request.get_json(force=True)
+        form_errors = schema.validate(data['site'])
+        if not form_errors:
+               site.url = data['site']['url']
+               site.content = data['site']['content']
+               site.tag = data['site']['tag']
+               site.reddit_score = data['site']['reddit_score']
+               site.ycombinator_score = data['site']['ycombinator_score']
+               update = site.update()
+               #if does not return any error
+               if not update :
+                  return jsonify({"message":"success"})
+               else:
+                  return jsonify({"message":update})
+
+    def delete(self, id):
+        site=Sites.query.get_or_404(id)
+        delete=site.delete(site)
+        if not delete :
+                 return jsonify({"message":"success"})
+
+        else:
+            return jsonify({"message":delete})
+
+
+
+
+api.add_resource(SitesList, '/')
+api.add_resource(SitesUpdate, '/<int:id>')
 
 ### SEARCH START ###
 @sites.route('/search', methods=['GET'])
@@ -40,6 +111,7 @@ def tag():
 ## End testing
 ### SEARCH END ###
 
+"""
 #Sites
 @sites.route('/' , methods=['GET'])
 @login_required
@@ -61,15 +133,7 @@ def site_add():
 
     if request.method == 'POST':
         #Validate form values by de-serializing the request, http://marshmallow.readthedocs.org/en/latest/quickstart.html#validation
-        form_errors = schema.validate(request.form.to_dict())
-        if not form_errors:
-            url = request.form['url']
-            content = request.form['content']
-            tag = request.form['tag']
-            site = Sites(url, content, tag)
-            return add(site, success_url = 'sites.site_index', fail_url = 'sites.site_add')
-        else:
-            flash(form_errors)
+
 
     return render_template('/sites/add.html')
 
@@ -135,7 +199,7 @@ def delete (data, fail_url=''):
           message=delete
           flash(message)
      return redirect(url_for(fail_url))
-
+"""
 #Create  Triggers and Functions
 @sites.route('/trigger', methods=['GET'])
 def trig():
