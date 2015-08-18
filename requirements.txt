@@ -1,4 +1,5 @@
 alembic==0.7.6
+aniso8601==1.0.0
 autopep8==1.2
 beautifulsoup4==4.4.0
 blinker==1.4
@@ -7,6 +8,7 @@ Flask==0.10.1
 Flask-Login==0.2.11
 Flask-Mail==0.9.1
 Flask-Migrate==1.4.0
+Flask-RESTful==0.3.4
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.0
 inflect==0.2.5
@@ -18,10 +20,12 @@ marshmallow==1.2.6
 pep8==1.6.2
 psycopg2==2.6
 pyparsing==2.0.3
+pytz==2015.4
 requests==2.7.0
 six==1.9.0
 SQLAlchemy==1.0.4
 SQLAlchemy-Searchable==0.9.3
 SQLAlchemy-Utils==0.30.9
+uWSGI==2.0.11.1
 validators==0.7
 Werkzeug==0.10.4
