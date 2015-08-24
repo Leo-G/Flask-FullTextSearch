@@ -1,12 +1,34 @@
-from flask import Blueprint, render_template, request,flash, redirect, url_for
+from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify
 from app.users.models import Users, UsersSchema
 from app.roles.models import Roles
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import LoginManager, login_user, logout_user, login_required
+from flask_restful import Resource, Api
+
+
+
 
 users = Blueprint('users', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
 schema = UsersSchema()
+
+api = Api(users)
+
+class Auth(Resource):
+    def post(self):
+        data=request.get_json(force=True)
+        #print(data['user'][0]['password'])
+        email=data['user'][0]['username']
+        password=data['user'][0]['password']
+        user=Users.query.filter_by(email=email).first()
+        if user == None:           
+           return jsonify({"message":"invalid username/password"})
+        if check_password_hash(user.password,password) and login_user(user):
+                 return jsonify({"message":"success"})
+        else:
+             return jsonify({"message":"invalid password/username"})
+
+api.add_resource(Auth, '/auth')             
 
 #Users
 @users.route('/' )

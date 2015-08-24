@@ -9,11 +9,12 @@ def create_app(config_filename):
     #Init SQLAlchemy
     from app.users.models import db
     db.init_app(app)
+    
+     
 
     #Init flask-login
     from app.users.views import login_manager
-    login_manager.init_app(app)
-    
+    login_manager.init_app(app)  
     
 
     
