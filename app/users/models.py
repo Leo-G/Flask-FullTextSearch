@@ -62,7 +62,7 @@ class UsersSchema(Schema):
     role = fields.String()
 
     class Meta:
-       fields = ('id', 'email', 'name', 'password', 'is_enabled', 'roles')
+       fields = ('id', 'email', 'name', 'is_enabled')
 
 
 

@@ -1,45 +1,29 @@
-'use strict';
+(function() {
 
-// declare modules
-angular.module('Authentication', []);
-angular.module('Home', []);
+    'use strict';
 
-angular.module('BasicHttpAuthExample', [
-    'Authentication',
-    'Home',
-    'ngRoute',
-    'ngCookies'
-])
- 
-.config(['$routeProvider', function ($routeProvider) {
+    angular
+        .module('authApp', ['ui.router', 'satellizer'])
+        .config(function($stateProvider, $urlRouterProvider, $authProvider) {
 
-    $routeProvider
-        .when('/login', {
-            controller: 'LoginController',
-            templateUrl: 'login.html',
-            hideMenus: true
-        })
- 
-        .when('/', {
-            controller: 'HomeController',
-            templateUrl: 'home.html'
-        })
- 
-        .otherwise({ redirectTo: '/login' });
-}])
- 
-.run(['$rootScope', '$location', '$cookieStore', '$http',
-    function ($rootScope, $location, $cookieStore, $http) {
-        // keep user logged in after page refresh
-        $rootScope.globals = $cookieStore.get('globals') || {};
-        if ($rootScope.globals.currentUser) {
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
-        }
- 
-        $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            // redirect to login page if not logged in
-            if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
-                $location.path('/login');
-            }
+            // Satellizer configuration that specifies which API
+            // route the JWT should be retrieved from
+            $authProvider.loginUrl = '/users/auth';
+
+            // Redirect to the auth state if any other states
+            // are requested other than users
+            $urlRouterProvider.otherwise('/auth');
+            
+            $stateProvider
+                .state('auth', {
+                    url: '/auth',
+                    templateUrl: 'login.html',
+                    controller: 'AuthController as auth'
+                })
+                .state('tasks', {
+                    url: '/tasks',
+                    templateUrl: 'tasks.html',
+                    controller: 'TaskController as task'
+                });
         });
-    }]);
+})();

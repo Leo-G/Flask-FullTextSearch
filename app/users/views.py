@@ -1,11 +1,10 @@
-from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify, make_response
 from app.users.models import Users, UsersSchema
 from app.roles.models import Roles
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import LoginManager, login_user, logout_user, login_required
 from flask_restful import Resource, Api
-
-
+import jwt
 
 
 users = Blueprint('users', __name__)
@@ -17,26 +16,66 @@ api = Api(users)
 class Auth(Resource):
     def post(self):
         data=request.get_json(force=True)
-        #print(data['user'][0]['password'])
-        email=data['user'][0]['username']
-        password=data['user'][0]['password']
+        print(data)
+        email=data['email']
+        password=data['password']
         user=Users.query.filter_by(email=email).first()
-        if user == None:           
-           return jsonify({"message":"invalid username/password"})
+        if user == None:
+           response = make_response(jsonify({"message":"invalid username/password"}))
+           response.status_code = 401
+           return response
         if check_password_hash(user.password,password) and login_user(user):
-                 return jsonify({"message":"success"})
+                 encoded = jwt.encode({email:password}, 'secret', algorithm='HS256')
+                 return {'token': encoded.decode('utf-8')}
         else:
-             return jsonify({"message":"invalid password/username"})
+             response = make_response(jsonify({"message":"invalid username/password"}))
+             response.status_code = 401
+             return response
 
-api.add_resource(Auth, '/auth')             
+api.add_resource(Auth, '/auth') 
 
+def no_auth():
+    response = make_response(jsonify({"error":"Unauthorised"}))
+    response.status_code = 401
+    return response
+    
+class User(Resource):
+    def get(self):
+        token=request.headers.get('Authorization')
+        if token is not None:
+            #print(token.split()[1])
+            try:
+                jwt.decode(token.split()[1], 'secret', algorithms=['HS256'])
+                results = Users.query.all()
+                users = schema.dump(results, many=True).data
+                return jsonify({"users":users})
+            except jwt.InvalidTokenError:
+                response = make_response(jsonify({"error":"Unauthorised"}))
+                response.status_code = 401
+                return response
+        return no_auth()
+api.add_resource(User, '/')              
+
+#decorator to decode and verify jwt token
+def decode_jwt(data):
+      def decorator(func):
+        try:
+           
+            token = data['token']
+            jwt.decode(token, 'secret', algorithms=['HS256'])
+            return func            
+        except jwt.InvalidTokenError:
+            response = make_response(jsonify({"error":"Unauthorised"}))
+            response.status_code = 401
+            return response
+      return decorator
+             
+   
+    
 #Users
-@users.route('/' )
-@login_required
-def user_index():
-    results = Users.query.all()
-    #results = schema.dump(users, many=True).data
-    return render_template('/users/index.html', results=results)
+@users.route('/', methods=['GET'])
+
+    
 
 @users.route('/add' , methods=['POST', 'GET'])
 
@@ -59,6 +98,10 @@ def user_add():
            flash(form_errors)
 
     return render_template('/users/add.html')
+    
+
+
+
 
 @users.route('/update/<int:id>' , methods=['POST', 'GET'])
 @login_required
