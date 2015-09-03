@@ -21,8 +21,9 @@
             // Use Satellizer's $auth service to login
             $auth.login(credentials).then(function(data) {
 
-                // If login is successful, redirect to the users state
-                $window.location.path('/sites-new');
+                // If login is successful, redirect to sites list
+                var url = "http://" + $window.location.host + "/sites-new";
+                $window.location.href =  url;
             });
         }
         

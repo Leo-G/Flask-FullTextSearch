@@ -51,7 +51,7 @@ angular.module('siteApp.controllers', []).controller('SiteListController', funct
       site = Site.get({ id: selected_id});
       site.$delete({ id: selected_id},function() {
         $window.alert(selected_id + " was deleted successfully");
-        $window.location.href = ''; //redirect to home
+        $window.location.href = '/sites-new'; //redirect to home
       }, function(error) {
     $window.alert(error.status);
     });

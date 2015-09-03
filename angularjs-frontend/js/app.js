@@ -3,19 +3,19 @@ angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'si
 angular.module('siteApp').config(function($stateProvider) {
   $stateProvider.state('sites', { // state for showing all sites
     url: '/',
-    templateUrl: 'partials/sites.html',
+    templateUrl: 'sites-new/partials/sites.html',
     controller: 'SiteListController'
   }).state('viewSite', { //state for showing single site
     url: '/sites/:id/view',
-    templateUrl: 'partials/site-view.html',
+    templateUrl: 'sites-new/partials/site-view.html',
     controller: 'SiteViewController'
   }).state('newSite', { //state for adding a new site
     url: '/sites/new',
-    templateUrl: 'partials/site-add.html',
+    templateUrl: 'sites-new/partials/site-add.html',
     controller: 'SiteCreateController'
   }).state('editSite', { //state for updating a site
     url: '/sites/:id/edit',
-    templateUrl: 'partials/site-edit.html',
+    templateUrl: 'sites-new/partials/site-edit.html',
     controller: 'SiteEditController'
   });
 }).run(function($state) {
