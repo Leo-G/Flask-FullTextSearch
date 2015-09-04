@@ -19,6 +19,8 @@ MarkupSafe==0.23
 marshmallow==1.2.6
 pep8==1.6.2
 psycopg2==2.6
+PyJWT==1.4.0
+PyMySQL==0.6.6
 pyparsing==2.0.3
 pytz==2015.4
 requests==2.7.0
