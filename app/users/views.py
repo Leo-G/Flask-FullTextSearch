@@ -5,11 +5,59 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import LoginManager, login_user, logout_user, login_required
 from flask_restful import Resource, Api
 import jwt
-
+from jwt import DecodeError, ExpiredSignature
+from config import SECRET_KEY
+from datetime import datetime, timedelta
+from functools import wraps
+import restful
 
 users = Blueprint('users', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
 schema = UsersSchema()
+
+
+# JWT AUTh process start
+def create_token(user):
+    payload = {
+        'sub': user.id,
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + timedelta(days=14)
+    }
+    token = jwt.encode(payload, SECRET_KEY)
+    return token.decode('unicode_escape')
+
+
+def parse_token(req):
+    token = req.headers.get('Authorization').split()[1]
+    return jwt.decode(token, app.config['SECRET_KEY'])
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not request.headers.get('Authorization'):
+            response = jsonify(message='Missing authorization header')
+            response.status_code = 401
+            return response
+
+        try:
+            payload = parse_token(request)
+        except DecodeError:
+            response = jsonify(message='Token is invalid')
+            response.status_code = 401
+            return response
+        except ExpiredSignature:
+            response = jsonify(message='Token has expired')
+            response.status_code = 401
+            return response
+
+        g.user_id = payload['sub']
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+# JWT AUTh process end
 
 api = Api(users)
 
@@ -24,9 +72,10 @@ class Auth(Resource):
            response = make_response(jsonify({"message":"invalid username/password"}))
            response.status_code = 401
            return response
-        if check_password_hash(user.password,password) and login_user(user):
-                 encoded = jwt.encode({email:password}, 'secret', algorithm='HS256')
-                 return {'token': encoded.decode('utf-8')}
+        if check_password_hash(user.password,password):
+                 #encoded = jwt.encode({email:password}, 'secret', algorithm='HS256')
+                 token = create_token(user)
+                 return {'token': token}
         else:
              response = make_response(jsonify({"message":"invalid username/password"}))
              response.status_code = 401
@@ -39,36 +88,22 @@ def no_auth():
     response.status_code = 401
     return response
     
+    
+class Resource(restful.Resource):
+    method_decorators = [login_required]    
+    
 class User(Resource):
     def get(self):
-        token=request.headers.get('Authorization')
-        if token is not None:
-            #print(token.split()[1])
-            try:
-                jwt.decode(token.split()[1], 'secret', algorithms=['HS256'])
+        
+                #jwt.decode(token.split()[1], 'secret', algorithms=['HS256'])
                 results = Users.query.all()
                 users = schema.dump(results, many=True).data
                 return jsonify({"users":users})
-            except jwt.InvalidTokenError:
-                response = make_response(jsonify({"error":"Unauthorised"}))
-                response.status_code = 401
-                return response
-        return no_auth()
+            
+        
 api.add_resource(User, '/')              
 
-#decorator to decode and verify jwt token
-def decode_jwt(data):
-      def decorator(func):
-        try:
-           
-            token = data['token']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-            return func            
-        except jwt.InvalidTokenError:
-            response = make_response(jsonify({"error":"Unauthorised"}))
-            response.status_code = 401
-            return response
-      return decorator
+
              
    
     

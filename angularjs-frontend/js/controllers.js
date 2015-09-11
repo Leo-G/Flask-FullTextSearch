@@ -51,7 +51,8 @@ angular.module('siteApp.controllers', []).controller('SiteListController', funct
       site = Site.get({ id: selected_id});
       site.$delete({ id: selected_id},function() {
         $window.alert(selected_id + " was deleted successfully");
-        $window.location.href = '/sites-new'; //redirect to home
+        $state.go('sites'); //redirect to home
+        $state.reload();
       }, function(error) {
     $window.alert(error.status);
     });
@@ -90,4 +91,36 @@ angular.module('siteApp.controllers', []).controller('SiteListController', funct
   };
 
   $scope.loadSite(); // Load a site which can be edited on UI
+}).controller('AuthController', function($auth, $state, $window, $scope) {
+	
+	
+	 $scope.login = function() {
+
+            $scope.credentials = {
+                email: $scope.email,
+                password: $scope.password
+            }
+            
+            // Use Satellizer's $auth service to login
+            $auth.login($scope.credentials).then(function(data) {
+
+                // If login is successful, redirect to sites list
+               
+				$state.go('sites');
+            })
+            .catch(function(response){
+               $scope.loginError=response.data;
+               });
+        }
+		
+		 $scope.logout = function() {
+		   $auth.logout();
+		   $state.go('auth');
+	   }
+        
+ 
 });
+
+
+
+  
