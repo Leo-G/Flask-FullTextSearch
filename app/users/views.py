@@ -4,12 +4,14 @@ from app.roles.models import Roles
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import LoginManager, login_user, logout_user, login_required
 from flask_restful import Resource, Api
+import flask_restful
 import jwt
 from jwt import DecodeError, ExpiredSignature
 from config import SECRET_KEY
 from datetime import datetime, timedelta
 from functools import wraps
-import restful
+from flask import g
+
 
 users = Blueprint('users', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
@@ -29,7 +31,7 @@ def create_token(user):
 
 def parse_token(req):
     token = req.headers.get('Authorization').split()[1]
-    return jwt.decode(token, app.config['SECRET_KEY'])
+    return jwt.decode(token, SECRET_KEY)
 
 
 def login_required(f):
@@ -89,7 +91,7 @@ def no_auth():
     return response
     
     
-class Resource(restful.Resource):
+class Resource(flask_restful.Resource):
     method_decorators = [login_required]    
     
 class User(Resource):
