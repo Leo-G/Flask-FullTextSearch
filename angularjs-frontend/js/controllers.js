@@ -1,4 +1,8 @@
-angular.module('siteApp.controllers', []).controller('SiteListController', function($scope, $state,  $window, Site) {
+angular.module('siteApp.controllers', []).controller('SiteListController', function($scope, $state,  $window, Site, $auth) {
+
+$scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+    };
 
  var columnDefs = [ {headerName: "Sr No", width: 50, cellRenderer: function(params) {
             return params.node.id + 1;
@@ -113,10 +117,28 @@ angular.module('siteApp.controllers', []).controller('SiteListController', funct
                });
         }
 		
-		 $scope.logout = function() {
-		   $auth.logout();
-		   $state.go('auth');
-	   }
+        
+ 
+}).controller('LogoutCtrl', function($auth,  $location) {
+	
+	
+	if (!$auth.isAuthenticated()) { return; }
+     $auth.logout()
+      .then(function() {
+      
+        alert("logout");
+        $location.url('/');
+      }); 
+		
+        
+ 
+}).controller('NavCtrl', function($auth,  $scope) {
+	
+	
+	$scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+    };
+		
         
  
 });
