@@ -13,6 +13,14 @@ fieldset {
 
 }
 
+body {
+
+background-image: url("../images/background/honda1978.jpg");
+background-size:cover;
+
+
+}
+
 
 /* Utilities
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

@@ -95,7 +95,7 @@ $scope.isAuthenticated = function() {
   };
 
   $scope.loadSite(); // Load a site which can be edited on UI
-}).controller('AuthController', function($auth, $state, $window, $scope) {
+}).controller('AuthController', function($auth, $state, $window, $scope, toaster) {
 	
 	
 	 $scope.login = function() {
@@ -113,20 +113,33 @@ $scope.isAuthenticated = function() {
 				$state.go('sites');
             })
             .catch(function(response){
-               $scope.loginError=response.data;
+               
+               
+               toaster.pop({
+                type: 'error',
+                title: 'Login Error',
+                body: response.data,
+                showCloseButton: true,
+                timeout: 0
+                });
                });
         }
 		
         
  
-}).controller('LogoutCtrl', function($auth,  $location) {
+}).controller('LogoutCtrl', function($auth,  $location, toaster) {
 	
 	
 	if (!$auth.isAuthenticated()) { return; }
      $auth.logout()
       .then(function() {
       
-        alert("logout");
+        toaster.pop({
+                type: 'success',               
+                body: 'Bye' ,
+                showCloseButton: true,
+                
+                });
         $location.url('/');
       }); 
 		

@@ -1,4 +1,4 @@
-angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'siteApp.services', "angularGrid" , 'satellizer']);
+angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'siteApp.services', "angularGrid" , 'satellizer','toaster', 'ngAnimate']);
 
 angular.module('siteApp').config(function($stateProvider, $urlRouterProvider, $authProvider) {
 	
