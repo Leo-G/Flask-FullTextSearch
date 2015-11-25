@@ -2,9 +2,10 @@
 from flask import Blueprint, render_template, request,flash, redirect, url_for, jsonify, current_app
 from app.sites.models import Sites, SitesSchema
 from app.users.models import db
-from flask.ext.login import login_required
+from app.users.views import Resource
+
 import subprocess
-from flask_restful import Resource, Api
+from flask_restful import Api
 
 sites = Blueprint('sites', __name__)
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
@@ -14,6 +15,7 @@ new_schema = SitesSchema()
 # API START
 
 api = Api(sites)
+
 
 class SitesList(Resource):
     def get(self):
@@ -39,6 +41,7 @@ class SitesList(Resource):
                 return jsonify({"message":add})
          else:
             print(form_errors)
+            
 
 class SitesUpdate(Resource):
 

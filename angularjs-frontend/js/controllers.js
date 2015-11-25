@@ -1,4 +1,8 @@
-angular.module('siteApp.controllers', []).controller('SiteListController', function($scope, $state,  $window, Site) {
+angular.module('siteApp.controllers', []).controller('SiteListController', function($scope, $state,  $window, Site, $auth) {
+
+$scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+    };
 
  var columnDefs = [ {headerName: "Sr No", width: 50, cellRenderer: function(params) {
             return params.node.id + 1;
@@ -51,7 +55,8 @@ angular.module('siteApp.controllers', []).controller('SiteListController', funct
       site = Site.get({ id: selected_id});
       site.$delete({ id: selected_id},function() {
         $window.alert(selected_id + " was deleted successfully");
-        $window.location.href = '/sites-new'; //redirect to home
+        $state.go('sites'); //redirect to home
+        $state.reload();
       }, function(error) {
     $window.alert(error.status);
     });
@@ -90,4 +95,67 @@ angular.module('siteApp.controllers', []).controller('SiteListController', funct
   };
 
   $scope.loadSite(); // Load a site which can be edited on UI
+}).controller('AuthController', function($auth, $state, $window, $scope, toaster) {
+	
+	
+	 $scope.login = function() {
+
+            $scope.credentials = {
+                email: $scope.email,
+                password: $scope.password
+            }
+            
+            // Use Satellizer's $auth service to login
+            $auth.login($scope.credentials).then(function(data) {
+
+                // If login is successful, redirect to sites list
+               
+				$state.go('sites');
+            })
+            .catch(function(response){
+               
+               
+               toaster.pop({
+                type: 'error',
+                title: 'Login Error',
+                body: response.data,
+                showCloseButton: true,
+                timeout: 0
+                });
+               });
+        }
+		
+        
+ 
+}).controller('LogoutCtrl', function($auth,  $location, toaster) {
+	
+	
+	if (!$auth.isAuthenticated()) { return; }
+     $auth.logout()
+      .then(function() {
+      
+        toaster.pop({
+                type: 'success',               
+                body: 'Bye' ,
+                showCloseButton: true,
+                
+                });
+        $location.url('/');
+      }); 
+		
+        
+ 
+}).controller('NavCtrl', function($auth,  $scope) {
+	
+	
+	$scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+    };
+		
+        
+ 
 });
+
+
+
+  

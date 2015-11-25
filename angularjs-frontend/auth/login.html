@@ -1,16 +1,18 @@
 <!-- public/views/authView.html -->
 
-<div class="col-sm-4 col-sm-offset-4">
-    <div class="well">
-        <h3>Login</h3>
-        <form>
-            <div class="form-group">
-                <input type="email" class="form-control" placeholder="Email" ng-model="auth.email">
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" ng-model="auth.password">
-            </div>
-            <button class="btn btn-primary" ng-click="auth.login()">Submit</button>
+
+<toaster-container></toaster-container>
+<div >
+ <div class="two columns"></div>
+    <div class="ten columns">   
+        
+        <form ng-submit="login()">            
+                <input type="email" placeholder="Email" ng-model="email" required>
+            
+        
+                <input type="password"  placeholder="Password" ng-model="password" required>
+          
+            <button class="button-primary" >Login</button>
         </form>
     </div>
 </div>
