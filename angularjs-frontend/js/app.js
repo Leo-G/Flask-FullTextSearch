@@ -1,4 +1,4 @@
-angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'siteApp.services', "angularGrid" , 'satellizer','toaster', 'ngAnimate']);
+angular.module('siteApp', ['ui.router', 'ngResource', 'siteApp.controllers', 'siteApp.services', "angularGrid" , 'satellizer','toaster', 'ngAnimate', 'ngFileUpload']);
 
 angular.module('siteApp').config(function($stateProvider, $urlRouterProvider, $authProvider) {
 	
@@ -45,6 +45,21 @@ angular.module('siteApp').config(function($stateProvider, $urlRouterProvider, $a
     resolve: {
           loginRequired: loginRequired
         }
+  }).state('files', { // state for showing all images
+    url: '/file-share',
+    templateUrl: 'file-share/index.html',
+    controller: 'ImageListController',
+        resolve: {
+          loginRequired: loginRequired
+        }
+  }).state('newFile', { //state for adding a new image
+    url: '/file-share/new',
+    templateUrl: 'file-share/add.html',
+    controller: 'FileCreateController',
+    resolve: {
+          loginRequired: loginRequired
+        }
+      
   }).state('logout', {
         url: '/logout',
         template: null,
@@ -79,4 +94,7 @@ angular.module('siteApp').config(function($stateProvider, $urlRouterProvider, $a
     
 });
 
+//Initialize controllers and services
+angular.module('siteApp.controllers', []);
+angular.module('siteApp.services', []);
                

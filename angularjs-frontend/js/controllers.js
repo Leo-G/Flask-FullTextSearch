@@ -1,4 +1,4 @@
-angular.module('siteApp.controllers', []).controller('SiteListController', function($scope, $state,  $window, Site, $auth) {
+angular.module('siteApp.controllers').controller('SiteListController', function($scope, $state,  $window, Site, $auth) {
 
 $scope.isAuthenticated = function() {
       return $auth.isAuthenticated();
